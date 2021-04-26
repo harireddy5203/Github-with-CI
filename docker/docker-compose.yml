@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+
+    # Service - Github-with-CI-artifact-db-server
+    Github-with-CI-artifact-db-server:
+        container_name: Github-with-CI-artifact-db-server
+        image: postgres:12.4
+        restart: always
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=testdb
+
+# Service - Github-with-CI-artifact-service
+    Github-with-CI-artifact-service:
+        container_name: Github-with-CI-artifact-service
+        image: img/Github-with-CI-artifact-service:1.0.0
+        restart: always
+        ports:
+            - "8099:8099"
+        depends_on:
+            - Github-with-CI-artifact-db-server
+

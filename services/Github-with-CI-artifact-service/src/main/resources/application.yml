@@ -1,0 +1,56 @@
+server:
+  port: 8099
+# Database properties
+spring:
+  datasource:
+    driverClassName: ${DB_DRIVER_CLASS:org.postgresql.Driver}
+    platform: postgres
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_SERVER_PORT:5432}/${DB_NAME:testdb}?createDatabaseIfNotExist=true
+    initialization-mode: always
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    # set generate-ddl as false before pushing to production
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    properties:
+      hibernate:
+        default_schema: public
+        # Set the ddl-auto to none before pushing to production.
+        ddl-auto: create-drop
+        temp:
+          use_jdbc_metadata_defaults: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+# API Documentation settings
+com.test.configuration:
+  security:
+    endpoints:
+      unsecured:
+        - "/v3/api-docs/**"
+        - "/swagger-ui.html"
+        - "/swagger-ui/**"
+    auth:
+      token:
+        secret: isymphony
+        expiration-interval-in-hours: 168
+  api:
+    documentation:
+      title: Github-with-CI-artifact-service
+      description: github-app-name
+      # Update the license and licenseUrl.
+      license: GNU Lesser General Public License
+      licenseUrl: https://www.gnu.org/licenses/lgpl-3.0.en.html
+      version: 1.0.0
+      contact:
+        name: Mahalingam Iyer
+        email: Mahalingam Iyer
+      base-package: "com.test"
+      security-schema:
+        name: bearerAuth
+        scheme: bearer
+        type: HTTP
+        bearerFormat: JWT
